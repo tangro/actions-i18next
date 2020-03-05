@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import { GitHubContext, setStatus } from '@tangro/tangro-github-toolkit';
 import { Result } from './Result';
-import { runCheckI18n } from './i18n';
+import { runCheckI18n } from './i18next';
 
 interface I18nCheck {
   key: string;

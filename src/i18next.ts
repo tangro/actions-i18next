@@ -45,6 +45,8 @@ export async function runCheckI18n(
       const content = fs.readFileSync(filePath, 'utf8');
       const json = JSON.parse(content);
 
+      console.log('json', json);
+
       Object.keys(json).forEach(key => {
         if (json[key] === '') {
           notTranslatedKeys.push({
