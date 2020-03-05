@@ -1,10 +1,10 @@
-name: 'Tangro Actions template'
-description: 'Add a description'
-author: 'tangro'
+name: "actions-i18next"
+description: "An action to verify that all i18next keys are translated"
+author: "tangro"
 inputs:
-  example-input:
-    description: 'Add more inputs here'
+  config:
+    description: "The path to the i18next scanner config"
     required: true
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
