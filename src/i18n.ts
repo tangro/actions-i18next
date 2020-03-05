@@ -36,13 +36,21 @@ export async function runCheckI18n(
     );
 
     const config = require(path.resolve(pathToConfig));
+    console.log('config ', config);
+
     config.options.lngs.forEach(language => {
-      const path = config.options.resource.savePath.replace(
-        '{{lng}}',
-        language
+      const filePath = path.join(
+        process.env.RUNNER_WORKSPACE as string,
+        repo,
+        config.options.resource.savePath.replace('{{lng}}', language)
       );
-      const content = fs.readFileSync(path, 'utf8');
+
+      console.log('filePath ', filePath);
+
+      const content = fs.readFileSync(filePath, 'utf8');
       const json = JSON.parse(content);
+
+      console.log('Object.keys(json) ', Object.keys(json));
 
       Object.keys(json).forEach(key => {
         if (json[key] === '') {
