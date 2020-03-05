@@ -58,7 +58,7 @@ async function run() {
       process.env.GITHUB_CONTEXT || ''
     ) as GitHubContext<{}>;
 
-    await wrapWithSetStatus(context, 'audit', async () => {
+    await wrapWithSetStatus(context, 'i18next', async () => {
       return await runCheckI18n(context);
     });
 
