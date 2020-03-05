@@ -24,7 +24,7 @@ export async function runCheckI18n(
 ): Promise<Result<Array<I18nCheck>>> {
   try {
     let isOkay = true;
-    const result: Array<I18nCheck> = [];
+    const notTranslatedKeys: Array<I18nCheck> = [];
 
     const [owner, repo] = context.repository.split('/');
     const configPath = core.getInput('configPath');
@@ -46,8 +46,9 @@ export async function runCheckI18n(
 
       Object.keys(json).forEach(key => {
         if (json[key] === '') {
+          console.log('key without ', key);
           isOkay = false;
-          result.push({
+          notTranslatedKeys.push({
             language,
             key
           });
@@ -55,14 +56,18 @@ export async function runCheckI18n(
       });
     });
 
-    return {
-      metadata: result,
+    const result: Result<Array<I18nCheck>> = {
+      metadata: notTranslatedKeys,
       isOkay: isOkay,
-      text: markdownListI18n(result),
+      text: markdownListI18n(notTranslatedKeys),
       shortText: isOkay
         ? `No keys without translations found.`
-        : `${result.length} keys without translations found.`
-    } as Result<Array<I18nCheck>>;
+        : `${notTranslatedKeys.length} keys without translations found.`
+    };
+
+    console.log('result ', result);
+
+    return result;
   } catch (error) {
     console.error(error);
     throw error;
