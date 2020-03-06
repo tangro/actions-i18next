@@ -9,14 +9,36 @@ interface I18nCheck {
   language: string;
 }
 
-const markdownListI18n = (i18nCheck: Array<I18nCheck>): string => {
-  return (
-    '### List of all Keys without translations \n' +
-    i18nCheck.map(
-      keyResult =>
-        `- language:${keyResult.language} translationKey ${keyResult.key}`
-    )
-  );
+const toFileText = (i18nCheck: Array<I18nCheck>, isOkay: boolean): string => {
+  if (isOkay) {
+    return '<h1>All keys are translated</h1>';
+  } else {
+    const text = [
+      `<h1>Missing translations to keys</h1><ul>${i18nCheck
+        .map(
+          ({ language, key }) =>
+            `<li>language:${language} translationKey ${key}</li>`
+        )
+        .join('')}</ul>`
+    ];
+
+    return `<html><body>${text}</body></html>`;
+  }
+};
+
+const toComment = (i18nCheck: Array<I18nCheck>, isOkay: boolean): string => {
+  if (isOkay) {
+    return 'All keys are translated';
+  } else {
+    const text = [
+      `# Missing translations to key ${i18nCheck
+        .map(
+          ({ language, key }) => `- language:${language} translationKey ${key}`
+        )
+        .join('\r\n\\')}`
+    ];
+    return `<html><body>${text}</body></html>`;
+  }
 };
 
 export async function runCheckI18n(
@@ -35,9 +57,6 @@ export async function runCheckI18n(
     );
 
     const config = require(path.resolve(pathToConfig));
-
-    console.log('config', config);
-
     config.options.lngs.forEach(language => {
       const filePath = path.join(
         process.env.RUNNER_WORKSPACE as string,
@@ -47,8 +66,6 @@ export async function runCheckI18n(
 
       const content = fs.readFileSync(filePath, 'utf8');
       const json = JSON.parse(content);
-
-      console.log('json', json);
 
       Object.keys(json).forEach(key => {
         if (json[key] === '') {
@@ -61,15 +78,20 @@ export async function runCheckI18n(
     });
 
     const isOkay = notTranslatedKeys.length === 0;
+    const comment = toComment(notTranslatedKeys, isOkay);
+    const fileContent = toFileText(notTranslatedKeys, isOkay);
+    fs.mkdirSync('i18next');
+    fs.writeFileSync(path.join('i18next', 'index.html'), fileContent);
+    core.info(`Result written to ${path.join('i18next', 'index.html')}`);
+
     const result: Result<Array<I18nCheck>> = {
       metadata: notTranslatedKeys,
       isOkay,
-      text: markdownListI18n(notTranslatedKeys),
+      text: comment,
       shortText: isOkay
         ? `No keys without translations found.`
         : `${notTranslatedKeys.length} keys without translations found.`
     };
-
     console.log('result ', result);
     return result;
   } catch (error) {

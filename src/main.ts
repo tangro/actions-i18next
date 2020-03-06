@@ -3,11 +3,6 @@ import { GitHubContext, setStatus } from '@tangro/tangro-github-toolkit';
 import { Result } from './Result';
 import { runCheckI18n } from './i18next';
 
-interface I18nCheck {
-  key: string;
-  language: string;
-}
-
 async function wrapWithSetStatus<T>(
   context: GitHubContext<{}>,
   step: string,
