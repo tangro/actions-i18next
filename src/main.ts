@@ -30,6 +30,7 @@ async function run() {
     if (results) {
       if (results.isOkay) {
       } else {
+        console.log('setFailed', results.shortText);
         core.setFailed(results.shortText);
       }
     }

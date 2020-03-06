@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import path from 'path';
 import fs from 'fs';
+import groupBy from 'lodash/groupBy';
 import { GitHubContext, Result } from '@tangro/tangro-github-toolkit';
 
 interface I18nCheck {
@@ -12,13 +13,17 @@ const toFileText = (i18nCheck: Array<I18nCheck>, isOkay: boolean): string => {
   if (isOkay) {
     return '<h1>All keys are translated</h1>';
   } else {
+    const groupedI18nCheck = groupBy(i18nCheck, 'language');
+
     const text = [
-      `<h1>Missing translations to keys</h1><ul>${i18nCheck
+      `<h1>Missing translations to keys</h1>${Object.keys(groupedI18nCheck)
         .map(
-          ({ language, key }) =>
-            `<li>language:${language} -> translationKey:${key}</li>`
+          languageKey =>
+            `<strong>Language ${languageKey}</strong><ul>${groupedI18nCheck[
+              languageKey
+            ].map(translationKeys => `<li>${translationKeys}</li>`)}</ul>`
         )
-        .join('')}</ul>`
+        .join('')}`
     ];
 
     return `<html><body>${text}</body></html>`;
