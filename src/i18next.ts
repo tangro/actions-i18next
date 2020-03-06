@@ -1,8 +1,7 @@
 import * as core from '@actions/core';
 import path from 'path';
 import fs from 'fs';
-import { GitHubContext } from '@tangro/tangro-github-toolkit';
-import { Result } from './Result';
+import { GitHubContext, Result } from '@tangro/tangro-github-toolkit';
 
 interface I18nCheck {
   key: string;
@@ -17,7 +16,7 @@ const toFileText = (i18nCheck: Array<I18nCheck>, isOkay: boolean): string => {
       `<h1>Missing translations to keys</h1><ul>${i18nCheck
         .map(
           ({ language, key }) =>
-            `<li>language:${language} translationKey ${key}</li>`
+            `<li>language:${language} -> translationKey:${key}</li>`
         )
         .join('')}</ul>`
     ];

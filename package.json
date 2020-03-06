@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "1.2.3",
-    "@tangro/tangro-github-toolkit": "0.6.1"
+    "@tangro/tangro-github-toolkit": "1.0.0"
   },
   "devDependencies": {
     "@types/node": "13.7.7",
