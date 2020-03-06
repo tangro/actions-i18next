@@ -35,6 +35,9 @@ export async function runCheckI18n(
     );
 
     const config = require(path.resolve(pathToConfig));
+
+    console.log('config', config);
+
     config.options.lngs.forEach(language => {
       const filePath = path.join(
         process.env.RUNNER_WORKSPACE as string,

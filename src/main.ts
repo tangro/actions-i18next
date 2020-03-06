@@ -58,9 +58,16 @@ async function run() {
       process.env.GITHUB_CONTEXT || ''
     ) as GitHubContext<{}>;
 
-    await wrapWithSetStatus(context, 'i18next', async () => {
+    const results = await wrapWithSetStatus(context, 'i18next', async () => {
       return await runCheckI18n(context);
     });
+
+    if (results) {
+      if (results.isOkay) {
+      } else {
+        core.setFailed(results.shortText);
+      }
+    }
 
     // if (core.getInput('post-comment') === 'true' && result) {
     //   await createComment({
