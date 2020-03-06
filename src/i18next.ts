@@ -19,7 +19,7 @@ const toFileText = (i18nCheck: Array<I18nCheck>, isOkay: boolean): string => {
       `<h1>Missing translations to keys</h1>${Object.keys(groupedI18nCheck)
         .map(
           languageKey =>
-            `<strong>Language ${languageKey}</strong><ul>${groupedI18nCheck[
+            `<strong>Language ${languageKey}:</strong><ul>${groupedI18nCheck[
               languageKey
             ].map(({ key }) => `<li>${key}</li>`)}</ul>`
         )
@@ -96,7 +96,6 @@ export async function runCheckI18n(
         ? `No keys without translations found.`
         : `${notTranslatedKeys.length} keys without translations found.`
     };
-    console.log('result ', result);
     return result;
   } catch (error) {
     console.error(error);

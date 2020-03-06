@@ -30,17 +30,9 @@ async function run() {
     if (results) {
       if (results.isOkay) {
       } else {
-        console.log('setFailed', results.shortText);
         core.setFailed(results.shortText);
       }
     }
-
-    // if (core.getInput('post-comment') === 'true' && result) {
-    //   await createComment({
-    //     context,
-    //     comment: createCommentText(result)
-    //   });
-    // }
   } catch (error) {
     core.setFailed(error.message);
   }
