@@ -21,7 +21,7 @@ const toFileText = (i18nCheck: Array<I18nCheck>, isOkay: boolean): string => {
           languageKey =>
             `<strong>Language ${languageKey}</strong><ul>${groupedI18nCheck[
               languageKey
-            ].map(translationKeys => `<li>${translationKeys}</li>`)}</ul>`
+            ].map(({ key }) => `<li>${key}</li>`)}</ul>`
         )
         .join('')}`
     ];
