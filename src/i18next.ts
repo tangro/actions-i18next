@@ -52,19 +52,26 @@ export async function runCheckI18n(
     const notTranslatedKeys: Array<I18nCheck> = [];
 
     const [owner, repo] = context.repository.split('/');
+    const workingDirectory = core.getInput('workingDirectory');
     const configPath = core.getInput('configPath');
 
-    const pathToConfig = path.join(
-      process.env.RUNNER_WORKSPACE as string,
-      repo,
-      configPath
-    );
+    let rootPath;
+    if (workingDirectory) {
+      rootPath = path.join(
+        process.env.RUNNER_WORKSPACE as string,
+        repo,
+        workingDirectory
+      );
+    } else {
+      rootPath = path.join(process.env.RUNNER_WORKSPACE as string, repo);
+    }
+
+    const pathToConfig = path.join(rootPath, configPath);
 
     const config = require(path.resolve(pathToConfig));
     config.options.lngs.forEach(language => {
       const filePath = path.join(
-        process.env.RUNNER_WORKSPACE as string,
-        repo,
+        rootPath,
         config.options.resource.savePath.replace('{{lng}}', language)
       );
 

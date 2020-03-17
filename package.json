@@ -1,6 +1,6 @@
 {
   "name": "actions-i18next",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "An action to verify that all i18next keys are translated",
   "main": "lib/main.js",

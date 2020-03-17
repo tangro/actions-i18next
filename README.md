@@ -2,6 +2,13 @@
 
 A @tangro action to verify that all keys, collected with i18next-scanner have a translation.
 
+Parameters:
+
+```
+configPath: string;
+workingDirectory?: string;
+```
+
 # Example
 
 ```yml
