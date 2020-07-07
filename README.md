@@ -29,7 +29,7 @@ jobs:
       - name: Rum i18next-scanner
         run: npm run scan-translations
       - name: Check translations
-        uses: tangro/actions-i18next@1.0.0
+        uses: tangro/actions-i18next@1.0.2
         with:
           configPath: 'src/translations/i18next-scanner.config.js'
         env:
