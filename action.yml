@@ -2,9 +2,12 @@ name: "actions-i18next"
 description: "An action to verify that all i18next keys are translated"
 author: "tangro"
 inputs:
-  config:
+  configPath:
     description: "The path to the i18next scanner config"
     required: true
+  workingDirectory:
+    description: "Set the working directory, default it's the project root"
+    required: false
 runs:
   using: "node12"
   main: "dist/index.js"
