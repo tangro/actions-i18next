@@ -1,8 +1,12 @@
-# actions-i18next
+# tangro/actions-i18next
 
 A @tangro action to verify that all keys, collected with i18next-scanner have a translation.
 
-Parameters:
+# Version
+
+You can use a specific `version` of this action. The latest published version is `v1.0.4`. You can also use `latest` to always get the latest version.
+
+# Parameters:
 
 ```
 configPath: string;
@@ -17,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 12.x
       - name: Authenticate with GitHub package registry
@@ -29,7 +33,7 @@ jobs:
       - name: Rum i18next-scanner
         run: npm run scan-translations
       - name: Check translations
-        uses: tangro/actions-i18next@1.0.2
+        uses: tangro/actions-i18next@v1.0.4
         with:
           configPath: 'src/translations/i18next-scanner.config.js'
         env:
@@ -47,8 +51,65 @@ Steps this example job will perform:
 4. Rum i18next-scanner
 5. (this action) Run the i18next action
 
-# Usage
+# Using with a static file server
+
+You can also publish the results to a static file server. The action will write the results into `i18next/index.html`.
+
+You can publish the results with our custom [deploy actions](https://github.com/tangro/actions-deploy)
+
+```yml
+i18next:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout latest code
+      uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: 12.x
+    - name: Authenticate with GitHub package registry
+      run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
+    - name: Run npm install
+      run: npm install
+    - name: Rum i18next-scanner
+      run: npm run scan-translations
+    - name: Check translations
+      uses: tangro/actions-i18next@v1.0.4
+      with:
+        configPath: 'src/translations/i18next-scanner.config.js'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+    - name: Zip license check result
+      if: always()
+      run: |
+        cd i18next
+        zip --quiet --recurse-paths ../i18next.zip *
+    - name: Deploy i18next result
+      if: always()
+      uses: tangro/actions-deploy@v1.2.6
+      with:
+        context: auto
+        zip-file: i18next.zip
+        deploy-url: ${{secrets.DEPLOY_URL}}
+        project: i18next
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        DEPLOY_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
+        DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+```
+
+> **Attention** Do not forget to use the correct `DEPLOY_URL` and provide all the tokens the actions need.
 
 # Development
 
 Follow the guide of the [tangro-actions-template](https://github.com/tangro/tangro-actions-template)
+
+# Scripts
+
+- `npm run update-readme` - Run this script to update the README with the latest versions.
+
+  > You do not have to run this script, since it is run automatically by the release action
+
+- `npm run update-dependencies` - Run this script to update all the dependencies
