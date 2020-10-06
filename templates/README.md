@@ -58,7 +58,7 @@ You can also publish the results to a static file server. The action will write 
 You can publish the results with our custom [deploy actions](https://github.com/tangro/actions-deploy)
 
 ```yml
-check-dependencies:
+i18next:
   runs-on: ubuntu-latest
   steps:
     - name: Checkout latest code
@@ -67,6 +67,10 @@ check-dependencies:
       uses: <%= actions['setup-node'] %>
       with:
         node-version: 12.x
+    - name: Authenticate with GitHub package registry
+      run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
+    - name: Run npm install
+      run: npm install
     - name: Rum i18next-scanner
       run: npm run scan-translations
     - name: Check translations
