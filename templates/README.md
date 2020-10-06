@@ -87,7 +87,7 @@ i18next:
         zip --quiet --recurse-paths ../i18next.zip *
     - name: Deploy i18next result
       if: always()
-      uses: <%= tangro['actions-deploy] %>
+      uses: <%= tangro['actions-deploy'] %>
       with:
         context: auto
         zip-file: i18next.zip
