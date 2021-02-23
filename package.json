@@ -23,11 +23,11 @@
   "dependencies": {
     "@actions/core": "1.2.6",
     "@tangro/tangro-github-toolkit": "1.0.3",
-    "lodash": "4.17.20"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "4.14.168",
-    "@types/node": "14.14.28",
+    "@types/node": "14.14.31",
     "@zeit/ncc": "0.22.3",
     "ejs": "3.1.6",
     "rimraf": "3.0.2",
