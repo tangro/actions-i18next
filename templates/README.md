@@ -22,10 +22,10 @@ jobs:
     steps:
       - name: Checkout latest code
         uses: <%= actions.checkout %>
-      - name: Use Node.js 12.x
+      - name: Use Node.js 16.x
         uses: <%= actions['setup-node'] %>
         with:
-          node-version: 12.x
+          node-version: 16.x
       - name: Authenticate with GitHub package registry
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
       - name: Run npm install
@@ -63,10 +63,10 @@ i18next:
   steps:
     - name: Checkout latest code
       uses: <%= actions.checkout %>
-    - name: Use Node.js 12.x
+    - name: Use Node.js 16.x
       uses: <%= actions['setup-node'] %>
       with:
-        node-version: 12.x
+        node-version: 16.x
     - name: Authenticate with GitHub package registry
       run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
     - name: Run npm install
