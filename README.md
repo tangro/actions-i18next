@@ -4,7 +4,7 @@ A @tangro action to verify that all keys, collected with i18next-scanner have a 
 
 # Version
 
-You can use a specific `version` of this action. The latest published version is `v1.0.7`. You can also use `latest` to always get the latest version.
+You can use a specific `version` of this action. The latest published version is `v1.0.8`. You can also use `latest` to always get the latest version.
 
 # Parameters:
 
@@ -22,10 +22,10 @@ jobs:
     steps:
       - name: Checkout latest code
         uses: actions/checkout@v3
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v2.1.2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3.5.1
         with:
-          node-version: 12.x
+          node-version: 16.x
       - name: Authenticate with GitHub package registry
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
       - name: Run npm install
@@ -33,7 +33,7 @@ jobs:
       - name: Rum i18next-scanner
         run: npm run scan-translations
       - name: Check translations
-        uses: tangro/actions-i18next@v1.0.7
+        uses: tangro/actions-i18next@v1.0.8
         with:
           configPath: 'src/translations/i18next-scanner.config.js'
         env:
@@ -63,10 +63,10 @@ i18next:
   steps:
     - name: Checkout latest code
       uses: actions/checkout@v3
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v2.1.2
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3.5.1
       with:
-        node-version: 12.x
+        node-version: 16.x
     - name: Authenticate with GitHub package registry
       run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
     - name: Run npm install
@@ -74,7 +74,7 @@ i18next:
     - name: Rum i18next-scanner
       run: npm run scan-translations
     - name: Check translations
-      uses: tangro/actions-i18next@v1.0.7
+      uses: tangro/actions-i18next@v1.0.8
       with:
         configPath: 'src/translations/i18next-scanner.config.js'
       env:
@@ -87,7 +87,7 @@ i18next:
         zip --quiet --recurse-paths ../i18next.zip *
     - name: Deploy i18next result
       if: always()
-      uses: tangro/actions-deploy@v1.2.9
+      uses: tangro/actions-deploy@v1.2.12
       with:
         context: auto
         zip-file: i18next.zip
