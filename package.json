@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/lodash": "4.14.191",
-    "@types/node": "18.11.19",
+    "@types/node": "18.13.0",
     "@zeit/ncc": "0.22.3",
     "ejs": "3.1.8",
     "rimraf": "4.1.2",
