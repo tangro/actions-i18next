@@ -27,8 +27,8 @@
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.194",
-    "@types/node": "20.2.3",
+    "@types/lodash": "4.14.195",
+    "@types/node": "20.2.5",
     "ejs": "3.1.9",
     "rimraf": "5.0.1",
     "typescript": "5.0.4"
