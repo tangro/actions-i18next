@@ -9,5 +9,5 @@ inputs:
     description: "Set the working directory, default it's the project root"
     required: false
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"
