@@ -23,7 +23,7 @@
   "dependencies": {
     "@actions/core": "1.11.1",
     "@tangro/tangro-github-toolkit": "1.0.9",
-    "@vercel/ncc": "0.38.2",
+    "@vercel/ncc": "0.38.3",
     "lodash": "4.17.21"
   },
   "devDependencies": {
