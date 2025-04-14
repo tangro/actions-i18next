@@ -6,6 +6,7 @@ import { GitHubContext, Result } from '@tangro/tangro-github-toolkit';
 
 interface I18nCheck {
   key: string;
+  ns?: string;
   language: string;
 }
 
@@ -21,7 +22,7 @@ const toFileText = (i18nCheck: Array<I18nCheck>, isOkay: boolean): string => {
           languageKey =>
             `<strong>Language ${languageKey}:</strong><ul>${groupedI18nCheck[
               languageKey
-            ].map(({ key }) => `<li>${key}</li>`)}</ul>`
+            ].map(({ key, ns }) => `<li>${key} (ns:${ns})</li>`)}</ul>`
         )
         .join('')}`
     ];
@@ -37,7 +38,8 @@ const toComment = (i18nCheck: Array<I18nCheck>, isOkay: boolean): string => {
     const text = [
       `# Missing translations to key ${i18nCheck
         .map(
-          ({ language, key }) => `- language:${language} translationKey ${key}`
+          ({ language, key, ns }) =>
+            `- language:${language} translationKey ${key} ns: ${ns}`
         )
         .join('\r\n\\')}`
     ];
@@ -69,22 +71,28 @@ export async function runCheckI18n(
     const pathToConfig = path.join(rootPath, configPath);
 
     const config = require(path.resolve(pathToConfig));
+
     config.options.lngs.forEach(language => {
-      const filePath = path.join(
-        rootPath,
-        config.options.resource.savePath.replace('{{lng}}', language)
-      );
+      config.options.ns.forEach(ns => {
+        const filePath = path.join(
+          rootPath,
+          config.options.resource.savePath
+            .replace('{{lng}}', language)
+            .replace('{{ns}}', ns)
+        );
 
-      const content = fs.readFileSync(filePath, 'utf8');
-      const json = JSON.parse(content);
+        const content = fs.readFileSync(filePath, 'utf8');
+        const json = JSON.parse(content);
 
-      Object.keys(json).forEach(key => {
-        if (json[key] === '') {
-          notTranslatedKeys.push({
-            language,
-            key
-          });
-        }
+        Object.keys(json).forEach(key => {
+          if (json[key] === '') {
+            notTranslatedKeys.push({
+              language,
+              ns,
+              key
+            });
+          }
+        });
       });
     });
 
