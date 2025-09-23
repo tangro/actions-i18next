@@ -23,12 +23,12 @@
   "dependencies": {
     "@actions/core": "1.11.1",
     "@tangro/tangro-github-toolkit": "1.0.10",
-    "@vercel/ncc": "0.38.3",
+    "@vercel/ncc": "0.38.4",
     "lodash": "4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "4.17.20",
-    "@types/node": "24.5.0",
+    "@types/node": "24.5.2",
     "ejs": "3.1.10",
     "rimraf": "6.0.1",
     "typescript": "5.9.2"
