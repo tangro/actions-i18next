@@ -4,7 +4,7 @@ A @tangro action to verify that all keys, collected with i18next-scanner have a 
 
 # Version
 
-You can use a specific `version` of this action. The latest published version is `v1.1.15`. You can also use `latest` to always get the latest version.
+You can use a specific `version` of this action. The latest published version is `v1.1.16`. You can also use `latest` to always get the latest version.
 
 # Parameters:
 
@@ -33,7 +33,7 @@ jobs:
       - name: Rum i18next-scanner
         run: npm run scan-translations
       - name: Check translations
-        uses: tangro/actions-i18next@v1.1.15
+        uses: tangro/actions-i18next@v1.1.16
         with:
           configPath: 'src/translations/i18next-scanner.config.js'
         env:
@@ -74,7 +74,7 @@ i18next:
     - name: Rum i18next-scanner
       run: npm run scan-translations
     - name: Check translations
-      uses: tangro/actions-i18next@v1.1.15
+      uses: tangro/actions-i18next@v1.1.16
       with:
         configPath: 'src/translations/i18next-scanner.config.js'
       env:
