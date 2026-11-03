@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import path from 'path';
 import fs from 'fs';
+import { createRequire } from 'node:module';
 import groupBy from 'lodash/groupBy';
 import { GitHubContext, Result } from '@tangro/tangro-github-toolkit';
 
@@ -70,7 +71,8 @@ export async function runCheckI18n(
 
     const pathToConfig = path.join(rootPath, configPath);
 
-    const config = require(path.resolve(pathToConfig));
+    const resolvedConfigPath = path.resolve(pathToConfig);
+    const config = createRequire(resolvedConfigPath)(resolvedConfigPath);
 
     config.options.lngs.forEach(language => {
       config.options.ns.forEach(ns => {

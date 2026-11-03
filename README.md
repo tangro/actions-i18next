@@ -21,11 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code
-        uses: actions/checkout@v6
-      - name: Use Node.js 16.x
+        uses: actions/checkout@v7
+      - name: Use Node.js 24.x
         uses: actions/setup-node@v6.2.0
         with:
-          node-version: 16.x
+          node-version: 24.x
       - name: Authenticate with GitHub package registry
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
       - name: Run npm install
@@ -62,11 +62,11 @@ i18next:
   runs-on: ubuntu-latest
   steps:
     - name: Checkout latest code
-      uses: actions/checkout@v6
-    - name: Use Node.js 16.x
+      uses: actions/checkout@v7
+    - name: Use Node.js 24.x
       uses: actions/setup-node@v6.2.0
       with:
-        node-version: 16.x
+        node-version: 24.x
     - name: Authenticate with GitHub package registry
       run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
     - name: Run npm install
@@ -106,10 +106,34 @@ i18next:
 
 Follow the guide of the [tangro-actions-template](https://github.com/tangro/tangro-actions-template)
 
+Use Node.js 24 and install the locked dependencies with `npm ci`. Access to
+the GitHub package registry is required for `@tangro/tangro-github-toolkit`.
+
+The action runs on Node.js 24, so self-hosted runners must support the
+`node24` action runtime. The action inputs, environment variables, translation
+results and `i18next/index.html` report format are unchanged.
+
+Like `tangro/actions-test`, `tangro/actions-otrs` and `tangro/actions-deploy`,
+TypeScript 7 compiles the source to ESNext modules in `lib` first. ncc then
+bundles that JavaScript into the self-contained CommonJS entry point
+`dist/index.js`, including ESM dependencies. This avoids ncc's incompatible
+TypeScript loader. Commit the generated bundle with source or dependency changes.
+
 # Scripts
+
+- `npm run build` - Check types and rebuild `dist/index.js`.
+- `npm run typecheck` - Check types without generating files.
+- `npm test` - Run regression tests against the previously built bundle with a
+  local GitHub API stub; no GitHub token or external API calls are needed.
+- `npm run check` - Build and run the regression tests.
 
 - `npm run update-readme` - Run this script to update the README with the latest versions.
 
   > You do not have to run this script, since it is run automatically by the release action
 
-- `npm run update-dependencies` - Run this script to update all the dependencies
+- `npm run update-dependencies` - Update dependency versions with
+  npm-check-updates, matching the other tangro actions. Afterwards run
+  `npm install` and `npm run check` to refresh the lockfile and bundle.
+
+Pull requests are checked before merging. Release scripts follow the existing
+tangro convention and rebuild the bundle before creating a release tag.
