@@ -4,7 +4,7 @@ A @tangro action to verify that all keys, collected with i18next-scanner have a 
 
 # Version
 
-You can use a specific `version` of this action. The latest published version is `v1.1.18`. You can also use `latest` to always get the latest version.
+You can use a specific `version` of this action. The latest published version is `v1.1.19`. You can also use `latest` to always get the latest version.
 
 # Parameters:
 
@@ -23,7 +23,7 @@ jobs:
       - name: Checkout latest code
         uses: actions/checkout@v7
       - name: Use Node.js 24.x
-        uses: actions/setup-node@v6.2.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: 24.x
       - name: Authenticate with GitHub package registry
@@ -33,7 +33,7 @@ jobs:
       - name: Rum i18next-scanner
         run: npm run scan-translations
       - name: Check translations
-        uses: tangro/actions-i18next@v1.1.18
+        uses: tangro/actions-i18next@v1.1.19
         with:
           configPath: 'src/translations/i18next-scanner.config.js'
         env:
@@ -64,7 +64,7 @@ i18next:
     - name: Checkout latest code
       uses: actions/checkout@v7
     - name: Use Node.js 24.x
-      uses: actions/setup-node@v6.2.0
+      uses: actions/setup-node@v7.1.0
       with:
         node-version: 24.x
     - name: Authenticate with GitHub package registry
@@ -74,7 +74,7 @@ i18next:
     - name: Rum i18next-scanner
       run: npm run scan-translations
     - name: Check translations
-      uses: tangro/actions-i18next@v1.1.18
+      uses: tangro/actions-i18next@v1.1.19
       with:
         configPath: 'src/translations/i18next-scanner.config.js'
       env:
@@ -87,7 +87,7 @@ i18next:
         zip --quiet --recurse-paths ../i18next.zip *
     - name: Deploy i18next result
       if: always()
-      uses: tangro/actions-deploy@v1.2.23
+      uses: tangro/actions-deploy@v1.2.25
       with:
         context: auto
         zip-file: i18next.zip
